@@ -2,6 +2,7 @@
 
 void NVIC_EXTI_EnableEXTI(EXTI_Config_t *EXTI_Pin)
 {
+    
     NVIC_EXTI_SetEdge(EXTI_Pin->EXTI_n , EXTI_Pin->Edge);
     NVIC_EXTI_SYSCFG(EXTI_Pin->EXTI_n,EXTI_Pin->Port);
     NVIC_EXTI_Unmask(EXTI_Pin->EXTI_n);
