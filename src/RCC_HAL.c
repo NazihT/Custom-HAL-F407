@@ -5,6 +5,7 @@
 #define PPRE2_Pos   13
 
 
+
 uint32_t SYSCLK_FREQ = 16000000;
 uint32_t HCLK_FREQ= 16000000;
 uint32_t PCLK1_FREQ= 16000000;
