@@ -4,6 +4,7 @@ void TIM_Init(TIM_TypeDef *TIMx , TIMER_Config_t *ConfigStruct )
 {
     if(ConfigStruct->Mode==TIMER_MODE_BASIC)
     {
+        
       TIM_EnableClock(TIMx);
       TIMx->PSC = ConfigStruct->PSC;
       TIMx->ARR = ConfigStruct->ARR;
