@@ -7,7 +7,7 @@ void UART_Init(USART_TypeDef *uartx , UART_Config_t *confg)
     UART_SetWordLength(uartx,confg->wordlength);
     UART_SetUsage(uartx,confg->Usage);
     UART_SetInterrupts(uartx,confg);
-   USART2->CR1 |=(1<<USART_CR1_UE_Pos);
+    USART2->CR1 |=(1<<USART_CR1_UE_Pos);
 
      
 
@@ -69,7 +69,7 @@ void UART_SetInterrupts(USART_TypeDef *uartx,UART_Config_t *confg)
     if (confg->interrupt_mode==RXNE_Interrupt_Enable)
     {
       uartx->CR1 |=(1<<USART_CR1_RXNEIE_Pos);
-      uartx->CR1 |=(1<<USART_CR1_IDLEIE_Pos);
+      //uartx->CR1 |=(1<<USART_CR1_IDLEIE_Pos);
 
         IRQn_Type IRQn=UART_GetIRQn(uartx);
         NVIC_EnableIRQ(IRQn);
