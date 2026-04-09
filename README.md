@@ -2,7 +2,7 @@
 
 A lightweight, register-level Hardware Abstraction Layer (HAL) for the STM32F407 microcontroller.
 
-This project is built from scratch with a focus on performance, transparency, and full control over hardware without relying on vendor HAL libraries.
+This project  is built from scratch with a focus on performance, transparency, and full control over hardware without relying on vendor HAL libraries.
 
 ---
 
