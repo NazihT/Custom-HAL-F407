@@ -81,6 +81,7 @@ int main(void)
         {
             TIM_PWM_SetDutyCycle(TIM4, CHANNEL_1, duty);
             for (i = 0; i < 20000; i++);
+            
         }
  
         
