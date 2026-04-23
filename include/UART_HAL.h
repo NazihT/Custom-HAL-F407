@@ -1,50 +1,54 @@
 #ifndef UART_HAL_H
 #define UART_HAL_H
+
 #include "stm32f407xx.h"
 
-typedef enum
-{
-    RXNE_Interrupt_Disable,
-    RXNE_Interrupt_Enable,
-    
-}RXNE_Interrupt;
+/* ---- assert_param ---- */
+#ifdef USE_FULL_ASSERT
+  #define assert_param(expr) ((expr) ? (void)0U : assert_failed((uint8_t *)__FILE__, __LINE__))
+  void assert_failed(uint8_t *file, uint32_t line);
+#else
+  #define assert_param(expr) ((void)0U)
+#endif
 
-typedef enum
-{
-    _8_bit,
-    _9_bit,
-}Word_Length;
+/* ---- validation macros ---- */
+#define IS_UART(uart)         ((uart) == USART1 || (uart) == USART2 || (uart) == USART3 || \
+                               (uart) == UART4  || (uart) == UART5  || (uart) == USART6)
+#define IS_UART_MODE(m)       ((m) == UART_MODE_TX || (m) == UART_MODE_RX || (m) == UART_MODE_TX_RX)
+#define IS_WORD_LENGTH(wl)    ((wl) == WORD_LENGTH_8BIT || (wl) == WORD_LENGTH_9BIT)
+#define IS_UART_INTR(s)       ((s) == UART_INTERRUPT_ENABLE || (s) == UART_INTERRUPT_DISABLE)
 
-typedef enum
-{
-    TX,
-    RX,
-    TX_RX
+typedef enum {
+    UART_INTERRUPT_DISABLE,
+    UART_INTERRUPT_ENABLE,
+} UART_Interrupt;
 
-}UART_Usage;
+typedef enum {
+    WORD_LENGTH_8BIT,
+    WORD_LENGTH_9BIT,
+} Word_Length;
 
+typedef enum {
+    UART_MODE_TX,
+    UART_MODE_RX,
+    UART_MODE_TX_RX,
+} UART_Mode;
 
 typedef struct {
+    uint32_t       BaudRate;
+    UART_Mode      Mode;
+    UART_Interrupt InterruptState;
+    Word_Length    WordLength;
+} UART_Config_t;
 
-       
-   uint32_t BaudRate;
-   UART_Usage Usage;
-   RXNE_Interrupt interrupt_mode;
-   Word_Length wordlength;
-    
-}UART_Config_t;
-
-void UART_TransmitString(USART_TypeDef *uartx, const char* string);
-
-
-void UART_SetUsage(USART_TypeDef *uartx,UART_Usage usage);
-void UART_EnableClock(USART_TypeDef *uartx);
-void UART_SetInterrupts(USART_TypeDef *uartx,UART_Config_t *confg);
-void UART_Init(USART_TypeDef *uartx , UART_Config_t *confg);
-IRQn_Type UART_GetIRQn(USART_TypeDef *uartx);
-void UART_SetWordLength(USART_TypeDef *uartx,Word_Length wordlength);
-
-void UART_RxClearFlag(USART_TypeDef *uart);
-void UART_Transmit(USART_TypeDef *uart  , uint8_t data);
+void       UART_Init(USART_TypeDef *uartx, UART_Config_t *cfg);
+void       UART_EnableClock(USART_TypeDef *uartx);
+void       UART_SetMode(USART_TypeDef *uartx, UART_Mode mode);
+void       UART_SetWordLength(USART_TypeDef *uartx, Word_Length wordlength);
+void       UART_SetInterrupt(USART_TypeDef *uartx, UART_Interrupt intr);
+void       UART_Transmit(USART_TypeDef *uartx, uint8_t data);
+void       UART_TransmitString(USART_TypeDef *uartx, const char *string);
+void       UART_RxClearFlag(USART_TypeDef *uartx);
+IRQn_Type  UART_GetIRQn(USART_TypeDef *uartx);
 
 #endif
